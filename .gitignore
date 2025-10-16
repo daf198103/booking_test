@@ -1,16 +1,13 @@
-# Compiled class file
+# =========================================
+# Java and Build Artifacts
+# =========================================
 *.class
-
-# Log file
 *.log
-
-# BlueJ files
 *.ctxt
+hs_err_pid*
+replay_pid*
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
+# Package Files
 *.jar
 *.war
 *.nar
@@ -19,6 +16,62 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# =========================================
+# IDEs and Editors
+# =========================================
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# VS Code
+.vscode/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# =========================================
+# OS-specific files
+# =========================================
+.DS_Store
+Thumbs.db
+
+# =========================================
+# Maven and Gradle
+# =========================================
+target/
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# =========================================
+# Environment and temp
+# =========================================
+.env
+*.env
+*.tmp
+*.swp
+
+# =========================================
+# Logs and coverage reports
+# =========================================
+*.log
+logs/
+test-output/
+surefire-reports/
+jacoco.exec
+coverage/
+
+# =========================================
+# Miscellaneous
+# =========================================
+# Ignore local run configs, secrets, and user data
+*.local
+*.secret
+*.private
