@@ -225,29 +225,44 @@ class BookingServiceTest {
 
     @Test
     void getActiveBookingByGuestName_successful() {
-        Booking activeBooking = new Booking(
+        Booking activeBooking1 = new Booking(
                 "John Connor", "john@skynet.com", "prop1",
                 today.plusDays(1), today.plusDays(3), BookingStatus.ACTIVE
         );
 
-        when(bookingRepository.getActiveBookingByGuestName("John Connor"))
-                .thenReturn(Optional.of(activeBooking));
+        Booking activeBooking2 = new Booking(
+                "John Connor", "john@skynet.com", "prop2",
+                today.plusDays(4), today.plusDays(6), BookingStatus.ACTIVE
+        );
 
-        Booking result = bookingService.getActiveBookingByGuestName("John Connor");
+        List<Booking> activeBookings = List.of(activeBooking1, activeBooking2);
+
+        when(bookingRepository.getActiveBookingByGuestName("John Connor"))
+                .thenReturn(activeBookings);
+
+        List<Booking> result = bookingService.getActiveBookingByGuestName("John Connor");
 
         assertNotNull(result);
-        assertEquals("John Connor", result.getGuestName());
-        assertEquals(BookingStatus.ACTIVE, result.getStatus());
+        assertEquals(2, result.size());
+        assertTrue(result.stream().allMatch(b -> b.getGuestName().equals("John Connor")));
+        assertTrue(result.stream().allMatch(b -> b.getStatus() == BookingStatus.ACTIVE));
+
         verify(bookingRepository).getActiveBookingByGuestName("John Connor");
     }
 
     @Test
     void getActiveBookingByGuestName_notFound_throwsException() {
         when(bookingRepository.getActiveBookingByGuestName("Sarah Connor"))
-                .thenReturn(Optional.empty());
+                .thenReturn(Collections.emptyList());
 
-        assertThrows(NotFoundException.class,
-                () -> bookingService.getActiveBookingByGuestName("Sarah Connor"));
+        NotFoundException exception = assertThrows(
+                NotFoundException.class,
+                () -> bookingService.getActiveBookingByGuestName("Sarah Connor")
+        );
+
+        assertEquals("Booking not found", exception.getMessage());
+        verify(bookingRepository).getActiveBookingByGuestName("Sarah Connor");
     }
+
 
 }

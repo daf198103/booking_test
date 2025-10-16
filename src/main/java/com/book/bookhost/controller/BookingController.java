@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/bookings")
 public class BookingController {
@@ -51,7 +53,7 @@ public class BookingController {
     }
 
     @GetMapping()
-    public ResponseEntity<Booking> getActiveBookingByGuestName(@RequestParam String guestName) {
+    public ResponseEntity<List<Booking>> getActiveBookingByGuestName(@RequestParam String guestName) {
         return ResponseEntity.ok(service.getActiveBookingByGuestName(guestName));
     }
 

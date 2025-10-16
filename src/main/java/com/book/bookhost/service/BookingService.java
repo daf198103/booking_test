@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -79,9 +80,12 @@ public class BookingService {
         return bookingRepository.findById(id).orElseThrow(() -> new NotFoundException("Booking not found"));
     }
 
-    public Booking getActiveBookingByGuestName(String guestName) {
-
-        return bookingRepository.getActiveBookingByGuestName(guestName).orElseThrow(() -> new NotFoundException("Booking not found"));
+    public List<Booking> getActiveBookingByGuestName(String guestName) {
+        List<Booking> bookingByGuestNameList = bookingRepository.getActiveBookingByGuestName(guestName);
+        if(bookingByGuestNameList.isEmpty()){
+            throw new NotFoundException("Booking not found");
+        }
+        return bookingByGuestNameList;
     }
 
     @Transactional

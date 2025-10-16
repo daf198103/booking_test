@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
@@ -14,11 +15,11 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByGuestName(String guestName);
 
-    default Optional<Booking> getActiveBookingByGuestName(String guestName) {
+    default List<Booking> getActiveBookingByGuestName(String guestName) {
         return findByGuestName(guestName).stream()
                 .filter(bok -> bok.getGuestName().equalsIgnoreCase(guestName))
                 .filter(book -> book.getStatus() != BookingStatus.CANCELED)
-                .findFirst();
+                .collect(Collectors.toList());
     }
 
 }
