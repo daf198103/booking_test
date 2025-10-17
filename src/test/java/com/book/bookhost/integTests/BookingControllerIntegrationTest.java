@@ -158,4 +158,31 @@ class BookingControllerIntegrationTest {
         mockMvc.perform(get("/api/bookings/{id}", 1L))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void getBookingByName_success() throws Exception {
+        Booking booking = bookingRepository.save(
+                new Booking("John Connor", "theone@test.com", "prop1", startDate, endDate, BookingStatus.ACTIVE)
+        );
+
+        mockMvc.perform(get("/api/bookings/guestName")
+                        .param("guestName", booking.getGuestName()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].guestName", is("John Connor")));
+    }
+
+    @Test
+    void getBookingByName_notFound() throws Exception {
+        // Given a booking exists for "John Connor"
+        bookingRepository.save(new Booking(
+                "John Connor", "theone@test.com", "prop1",
+                startDate, endDate, BookingStatus.ACTIVE)
+        );
+
+        // When querying for someone else
+        mockMvc.perform(get("/api/bookings/guestName")
+                        .param("guestName", "Sarah Connor"))
+                .andExpect(status().isNotFound());
+    }
+
 }

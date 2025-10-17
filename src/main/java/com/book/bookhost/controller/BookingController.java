@@ -52,7 +52,7 @@ public class BookingController {
         return ResponseEntity.ok(service.getBooking(id));
     }
 
-    @GetMapping()
+    @GetMapping("/guestName")
     public ResponseEntity<List<Booking>> getActiveBookingByGuestName(@RequestParam String guestName) {
         return ResponseEntity.ok(service.getActiveBookingByGuestName(guestName));
     }
